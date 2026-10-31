@@ -1,0 +1,13 @@
+document.addEventListener('DOMContentLoaded', async () => {
+  const root=document.getElementById('page-content'); if(!root)return;
+  root.innerHTML=`<div class="toolbar"><div><h2>Financial overview</h2><p class="muted">Budget allocation compared with recorded expenses.</p></div><button class="button" id="export-report">Export CSV ↓</button></div><section class="panel"><div class="table-wrap"><table><thead><tr><th>Project</th><th>Allocated budget</th><th>Spent</th><th>Remaining</th><th>Utilization</th></tr></thead><tbody id="cost-report"><tr><td colspan="5">Loading report...</td></tr></tbody></table></div></section><div class="content-grid" style="margin-top:17px"><section class="panel"><div class="panel-head"><h2>Portfolio summary</h2></div><div id="portfolio-summary" class="report-cards"></div></section><section class="panel"><div class="panel-head"><h2>Milestone health</h2></div><div id="milestone-summary" class="report-cards"></div></section></div>`;
+  let rows=[];
+  try{
+    rows=await api('/reports/project-costs');
+    document.getElementById('cost-report').innerHTML=rows.length?rows.map(r=>{const pct=Number(r.budget)?Math.round(Number(r.spent)/Number(r.budget)*100):0;return `<tr><td>${escapeHTML(r.project_name)}</td><td>${money(r.budget)}</td><td>${money(r.spent)}</td><td>${money(r.remaining)}</td><td><div class="progress-track"><span style="width:${Math.min(100,pct)}%"></span></div><small>${pct}%</small></td></tr>`}).join(''):'<tr><td colspan="5" class="empty">No project records available.</td></tr>';
+    const summary=await api('/reports/summary');
+    document.getElementById('portfolio-summary').innerHTML=`<div><span class="stat-label">Projects</span><div class="stat-value">${summary.projects.total||0}</div></div><div><span class="stat-label">Completed</span><div class="stat-value">${summary.projects.completed||0}</div></div>`;
+    document.getElementById('milestone-summary').innerHTML=`<div><span class="stat-label">Total milestones</span><div class="stat-value">${summary.milestones.total||0}</div></div><div><span class="stat-label">Overdue</span><div class="stat-value">${summary.milestones.overdue||0}</div></div>`;
+    document.getElementById('export-report').addEventListener('click',()=>{const csv=[['Project','Budget','Spent','Remaining'],...rows.map(r=>[r.project_name,r.budget,r.spent,r.remaining])].map(row=>row.map(v=>`"${String(v??'').replaceAll('"','""')}"`).join(',')).join('\n');const blob=new Blob([csv],{type:'text/csv'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='drishti-project-cost-report.csv';a.click();URL.revokeObjectURL(url);});
+  }catch(error){toast(error.message,true)}
+});

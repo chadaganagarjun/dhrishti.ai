@@ -1,0 +1,3 @@
+const contractorFields = [{name:'name',label:'Contact name',required:true},{name:'company',label:'Company'},{name:'email',label:'Email',type:'email'},{name:'phone',label:'Phone'},{name:'specialization',label:'Specialization'},{name:'status',label:'Status',type:'select',options:['active','inactive']}];
+const contractorColumns = [{key:'name',label:'Contact'},{key:'company',label:'Company'},{key:'email',label:'Email'},{key:'phone',label:'Phone'},{key:'specialization',label:'Specialization'},{key:'status',label:'Status',format:statusTag}];
+renderCrudPage({ idKey:'contractor_id', endpoint:'/contractors', title:'Contractor directory', fields:contractorFields, columns:contractorColumns });
