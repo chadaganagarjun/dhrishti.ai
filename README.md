@@ -1,56 +1,53 @@
 # DRISHTI
 
-An Intelligent Infrastructure Project Monitoring and Risk Management System.
+### Intelligent Infrastructure Project Monitoring and Risk Management System
 
-## Technology
-- Frontend: HTML, CSS, JavaScript
-- Backend: Node.js, Express
-- Database: MySQL
-- Charts: Chart.js
+DRISHTI is a web-based infrastructure project management system designed to monitor project progress, manage contractors, track milestones, record expenses, identify risks, and generate reports.
 
-## Requirements
-- Node.js 18 or newer
-- MySQL 8 or newer
+## Features
 
-## Setup on macOS or Windows
+- Project management
+- Contractor management
+- Milestone tracking
+- Progress monitoring
+- Expense tracking
+- Risk management
+- Reports and analytics
+- Admin authentication
 
-1. Install Node.js and MySQL.
-2. Create a MySQL database by importing `database/schema.sql`.
-3. Optional: import `database/sample_data.sql` after the schema. Sample rows are not required; the server creates a first-run admin account automatically.
-4. Open a terminal in `backend` and run:
+## Tech Stack
 
-   ```bash
+- HTML
+- CSS
+- JavaScript
+- Node.js
+- Express.js
+- MySQL
+
+## Installation
+
+1. Clone the repository.
+2. Navigate to the backend folder.
+3. Install dependencies:
+
    npm install
-   ```
 
-5. Create `backend/.env` using this template:
-
-   ```env
-   PORT=5000
-   DB_HOST=localhost
-   DB_USER=root
-   DB_PASSWORD=your_mysql_password
-   DB_NAME=drishti
-   JWT_SECRET=replace_this_with_a_long_random_secret
-   ```
-
+4. Create a `.env` file inside the backend folder and configure your database credentials.
+5. Import `database/schema.sql` and `database/sample_data.sql` into MySQL.
 6. Start the backend:
 
-   ```bash
    npm run dev
-   ```
 
-7. Open `http://localhost:5000` in your browser.
+7. Open http://localhost:5001
 
-## First login
-If the users table is empty, the server creates:
-- Email: `admin@drishti.local`
-- Password: `Admin@123`
+## Default Admin Login
 
-Change this password after your first login. Keep your `.env` private and never upload it to GitHub.
+Email: admin@drishti.local
 
-## Windows transfer
-Transfer the project folder without `node_modules`. On Windows, create `backend/.env`, run `npm install` in `backend`, import the SQL schema into MySQL, and run `npm run dev`.
+Password: Admin@123
 
-## Main modules
-Dashboard, projects, contractors, milestones, progress updates, expenses, risks, alerts and reports.
+Change the default password before using the system in a real environment.
+
+## Author
+
+Dishanth Jain
